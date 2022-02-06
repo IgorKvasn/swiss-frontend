@@ -3,8 +3,6 @@ import axios from "axios";
 import {useEffect, useRef, useState} from "react";
 import styles from './NewTournament.module.scss';
 import {useNavigate} from "react-router-dom";
-import {Tournament} from "../types/tournament";
-import {Player} from "../types/player";
 import {TournamentSettings} from "../types/tournament-settings";
 
 const ALL_PLAYERS_STORAGE_KEY = 'ALL_PLAYERS_STORAGE_KEY';

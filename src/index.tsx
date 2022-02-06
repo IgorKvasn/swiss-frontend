@@ -45,6 +45,7 @@ function Application() {
         } else {
             navigate("/turnaj");
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
