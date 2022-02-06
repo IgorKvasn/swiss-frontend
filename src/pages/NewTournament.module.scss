@@ -1,0 +1,24 @@
+.playersList{
+ display: flex;
+  flex-direction: column;
+  gap: .2em;
+}
+
+.newPlayerInputWrapper{
+ display: flex;
+ flex-direction: row;
+ gap: 10px;
+ align-items: center;
+
+ .playerOrder{
+  margin-right: 1em;
+ }
+
+ > :global(.btn){
+  flex-basis: 10em;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+ }
+}
