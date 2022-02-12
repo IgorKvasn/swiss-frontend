@@ -12,6 +12,8 @@ import {
     faTrophy as fasTrophy,
     faArrowRight as fasArrowRight,
     faChartLine as fasChartLine,
+    faUsers as fasUsers,
+    faCrown as fasCrown
 } from "@fortawesome/free-solid-svg-icons";
 
 // See https://github.com/FortAwesome/react-fontawesome#integrating-with-other-tools-and-frameworks
@@ -39,5 +41,5 @@ config.autoAddCss = false; // Tell Font Awesome to skip adding the CSS automatic
 // library.add(farCalendarAlt, farCopy, farCheckSquare);
 
 // Import @fortawesome/free-solid-svg-icons
-library.add(fasUserPlus, fasUserMinus, fasRunning, fasEdit, fasTrophy, fasArrowRight, fasChartLine);
+library.add(fasUserPlus, fasUserMinus, fasRunning, fasEdit, fasTrophy, fasArrowRight, fasChartLine, fasUsers, fasCrown);
 

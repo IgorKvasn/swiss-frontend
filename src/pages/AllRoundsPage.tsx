@@ -13,8 +13,8 @@ export function AllRoundsPage() {
     const [canRender, setCanRender] = useState(false);
     const tournamentSettings: TournamentSettings | null = useRecoilValue(tournamentSettingsSelector);
 
-    const [currentTournament, ] = useRecoilState<Tournament | null>(tournamentState);
-    const [round, ] = useState(currentTournament?.rounds[0]);
+    const currentTournament = useRecoilValue<Tournament | null>(tournamentState);
+    const [round, setRound] = useState(currentTournament?.rounds[0]);
 
     useEffect(() => {
         if (tournamentSettings === null) {
@@ -29,15 +29,14 @@ export function AllRoundsPage() {
     }
 
     return <div className='container-sm' style={{textAlign: 'center'}}>
-        <button className={'btn btn-primary'} onClick={() => navigate('/turnaj')}>Späť</button>
-        <h2 style={{textAlign: "center", marginBottom: '1em'}}>{round!.number}. kolo</h2>
+        <h2 style={{textAlign: "center", marginBottom: '1em'}}>Kolo {round!.number}/{currentTournament?.rounds.length}</h2>
         <SingleRound round={round!} editable={false}/>
 
         <nav aria-label="vsetky kola" style={{marginTop: '2em'}}>
             <ul className="pagination pagination-lg justify-content-center">
                 {currentTournament?.rounds.map((r, index) => {
                     return <li key={r.number} className={`page-item ${round?.number === r.number ? 'active' : ''}`}
-                               aria-current="page">
+                               aria-current="page" onClick={()=>setRound(currentTournament?.rounds[index])}>
                         <span className="page-link">{r.number}</span>
                     </li>
                 })}

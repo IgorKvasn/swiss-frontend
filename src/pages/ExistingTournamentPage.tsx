@@ -26,9 +26,6 @@ export function ExistingTournamentPage() {
     }
 
     return <div className='container-sm' style={{textAlign: 'center'}}>
-        <button className={'btn btn-primary'} onClick={() => navigate('/vsetky-kola')}>
-            <FontAwesomeIcon icon={["fas", "chart-line"]} /> Všetky výsledky
-        </button>
         <h2 style={{textAlign: "center", marginBottom: '1em'}}>{currentRound!.number}. kolo</h2>
         <SingleRound round={currentRound!} editable={true}/>
     </div>

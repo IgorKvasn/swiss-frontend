@@ -1,0 +1,22 @@
+.firstPlayer{
+  color: darkgoldenrod;
+  svg{
+    margin-left: .5em;
+  }
+}
+
+.top3Players{
+  font-size: 1.3em;
+
+  &.thirdPlayer{
+    margin-bottom: .5em;
+  }
+}
+
+.playerName{
+  font-weight: bold;
+}
+
+.retiredPlayer{
+  text-decoration:  line-through;
+}
