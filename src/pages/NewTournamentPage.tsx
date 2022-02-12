@@ -4,6 +4,9 @@ import {useEffect, useRef, useState} from "react";
 import styles from './NewTournament.module.scss';
 import {useNavigate} from "react-router-dom";
 import {TournamentSettings} from "../types/tournament-settings";
+import {useRecoilState, useSetRecoilState} from "recoil";
+import {Tournament} from "../types/tournament";
+import {tournamentState} from "../recoil/atoms";
 
 const ALL_PLAYERS_STORAGE_KEY = 'ALL_PLAYERS_STORAGE_KEY';
 const TOURNAMENT_SETTINGS_STORAGE_KEY = 'TOURNAMENT_SETTINGS_STORAGE_KEY';
@@ -27,7 +30,7 @@ function readTournamentSettingsFromStorage(): TournamentSettings {
 const TOURNAMENT_SETTINGS_DEFAULT = {maxSets: 2, byeMatchResult: '7/6'} as TournamentSettings;
 
 export function NewTournamentPage() {
-
+    const setCurrentTournamentState = useSetRecoilState(tournamentState);
     const [newPlayer, setNewPlayer] = useState('');
     const [tournamentSettings, setTournamentSettings] = useState<TournamentSettings>(readTournamentSettingsFromStorage());
     const [allPlayers, setAllPlayers] = useState<string[]>(readPlayersFromStorage());
@@ -66,9 +69,10 @@ export function NewTournamentPage() {
             names: allPlayers,
             tournamentSettings
         };
-        axios.post('tournaments/', data).then(()=>{
+        axios.post('tournaments/', data).then((response)=>{
             window.localStorage.removeItem(ALL_PLAYERS_STORAGE_KEY);
             window.localStorage.removeItem(TOURNAMENT_SETTINGS_STORAGE_KEY);
+            setCurrentTournamentState(response.data as Tournament);
             navigate('/');
         }).catch((e)=>{
             alert('Nepodarilo sa vytvoriť turnaj!');

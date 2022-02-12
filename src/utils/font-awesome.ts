@@ -2,14 +2,16 @@ import { config, library } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 //   import { faGithub } from '@fortawesome/free-brands-svg-icons';
 // import {
-//     faCalendarAlt as farCalendarAlt,
-//     faCopy as farCopy,
-//     faCheckSquare as farCheckSquare,
+//     faTrophy as farTrophy
 // } from "@fortawesome/free-regular-svg-icons";
 import {
     faUserPlus as fasUserPlus,
     faUserMinus as fasUserMinus,
-    faRunning as fasRunning
+    faRunning as fasRunning,
+    faEdit as fasEdit,
+    faTrophy as fasTrophy,
+    faArrowRight as fasArrowRight,
+    faChartLine as fasChartLine,
 } from "@fortawesome/free-solid-svg-icons";
 
 // See https://github.com/FortAwesome/react-fontawesome#integrating-with-other-tools-and-frameworks
@@ -37,4 +39,5 @@ config.autoAddCss = false; // Tell Font Awesome to skip adding the CSS automatic
 // library.add(farCalendarAlt, farCopy, farCheckSquare);
 
 // Import @fortawesome/free-solid-svg-icons
-library.add(fasUserPlus, fasUserMinus, fasRunning);
+library.add(fasUserPlus, fasUserMinus, fasRunning, fasEdit, fasTrophy, fasArrowRight, fasChartLine);
+

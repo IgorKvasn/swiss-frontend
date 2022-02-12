@@ -1,5 +1,8 @@
-export function generateTournamentId(): number {
+export function generateTournamentId(): string {
     let date = new Date();
-    date.setHours(0, 0, 0, 0);
-    return +date;
+    return `${date.getFullYear()}-${padZeroLeft(date.getMonth()+1)}-${(padZeroLeft(date.getDate()))}`;
+}
+
+function padZeroLeft(v: number): string{
+    return v <=9?`0${v}`:String(v);
 }

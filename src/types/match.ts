@@ -12,6 +12,6 @@ export interface Match {
 }
 
 export interface MatchSet {
-    score1: number;
-    score2: number;
+    score1: number|null;
+    score2: number|null;
 }

@@ -1,17 +1,27 @@
 import {selector} from "recoil";
-import axios from "axios";
 import {Tournament} from "../types/tournament";
-import {generateTournamentId} from "../utils/tournament-utils";
+import {Round} from "../types/round";
+import {TournamentSettings} from "../types/tournament-settings";
+import {tournamentState} from "./atoms";
 
-export const currentTournament = selector<Tournament>({
-    key: 'CurrentTournament',
-    get: async ({get}) => {
-        try {
-            const response = await axios.get(`/api/tournaments/${generateTournamentId()}`);
-            return response.data || null;
-        } catch (error) {
+export const currentRoundSelector = selector<Round | null>({
+    key: 'CurrentRound',
+    get: ({get}) => {
+        const tournament: Tournament | null = get(tournamentState);
+        if (!tournament){
             return null;
         }
+        return tournament.rounds[tournament.rounds.length - 1];
+    }
+});
 
+export const tournamentSettingsSelector = selector<TournamentSettings | null>({
+    key: 'TournamentSettingsSelector',
+    get: ({get}) => {
+        const tournament: Tournament | null = get(tournamentState);
+        if (!tournament){
+            return null;
+        }
+        return tournament.settings;
     },
 });

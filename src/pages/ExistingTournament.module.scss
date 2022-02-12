@@ -1,0 +1,36 @@
+.tournamentMatch {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: .5em;
+
+  &.playersWrapper > div::before {
+      content: '•';
+      margin-right: 5px;
+  }
+
+  .playerWinner{
+    font-weight: bold;
+    svg{
+      left: 1em;
+      position: relative;
+      color: darkgoldenrod;
+    }
+  }
+
+  &.matchResult{
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+  }
+
+}
+
+.emptyScoreWrapper svg{
+  margin-left: .5em;
+}
+
+.match:hover{
+  background-color: #e5e5e5;
+}

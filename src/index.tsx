@@ -1,18 +1,21 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
-import {RecoilRoot, useRecoilValue} from 'recoil';
+import {RecoilRoot, useRecoilState} from 'recoil';
 import axios from "axios";
 import {tournamentState} from './recoil/atoms';
 import {BrowserRouter, Route, Routes, useNavigate} from 'react-router-dom';
 import {NewTournamentPage} from "./pages/NewTournamentPage";
 import {ExistingTournamentPage} from './pages/ExistingTournamentPage';
 import "./utils/font-awesome";
+import "bootstrap/js/dist/modal"
+import "bootstrap/js/dist/button"
+import {generateTournamentId} from "./utils/tournament-utils";
+import {AllRoundsPage} from "./pages/AllRoundsPage";
 
 
 axios.defaults.baseURL = process.env.REACT_APP_SERVER_URL;
 
-console.log('aaa', process.env.REACT_APP_SERVER_URL);
 
 ReactDOM.render(
     <React.StrictMode>
@@ -22,8 +25,9 @@ ReactDOM.render(
                     <Routes>
                         <Route path="/" element={<Application/>}/>
 
-                        <Route path="novy-turnaj" element={<NewTournamentPage />} />
-                        <Route path="turnaj" element={<ExistingTournamentPage />} />
+                        <Route path="novy-turnaj" element={<NewTournamentPage/>}/>
+                        <Route path="turnaj" element={<ExistingTournamentPage/>}/>
+                        <Route path="vsetky-kola" element={<AllRoundsPage/>}/>
                     </Routes>
                 </BrowserRouter>
             </React.Suspense>
@@ -36,23 +40,40 @@ ReactDOM.render(
 function Application() {
     let navigate = useNavigate();
 
-    const currentTournament = useRecoilValue(tournamentState);
-
+    const [currentTournament, setCurrentTournament] = useRecoilState(tournamentState);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        if (!currentTournament) {
-            navigate("/novy-turnaj");
-        } else {
-            navigate("/turnaj");
+        async function fetch() {
+            try {
+                const response = await axios.get(`/tournaments/${generateTournamentId()}?newRound=false`);
+                setCurrentTournament(response.data);
+                navigate("/turnaj");
+            } catch (error) {
+                navigate("/novy-turnaj");
+                return null;
+            } finally {
+                setLoading(false);
+            }
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+
+        setLoading(true);
+        fetch()
     }, []);
 
-    return (
-        <>
-            Loading....
-        </>
-    );
+    if (loading) {
+        return (
+            <>
+                Loading....
+            </>
+        );
+    } else {
+        return (
+            <>
+                Loaded
+            </>
+        );
+    }
 }
 
 
