@@ -13,8 +13,8 @@ export function AllRoundsPage() {
     const [canRender, setCanRender] = useState(false);
     const tournamentSettings: TournamentSettings | null = useRecoilValue(tournamentSettingsSelector);
 
-    const [currentTournament, setCurrentTournament] = useRecoilState<Tournament | null>(tournamentState);
-    const [round, setRound] = useState(currentTournament?.rounds[0]);
+    const [currentTournament, ] = useRecoilState<Tournament | null>(tournamentState);
+    const [round, ] = useState(currentTournament?.rounds[0]);
 
     useEffect(() => {
         if (tournamentSettings === null) {

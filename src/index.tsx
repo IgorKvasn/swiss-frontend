@@ -40,7 +40,7 @@ ReactDOM.render(
 function Application() {
     let navigate = useNavigate();
 
-    const [currentTournament, setCurrentTournament] = useRecoilState(tournamentState);
+    const [, setCurrentTournament] = useRecoilState(tournamentState);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
