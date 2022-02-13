@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
-import {RecoilRoot, useRecoilState, useRecoilValue} from 'recoil';
+import {RecoilRoot, useRecoilState} from 'recoil';
 import axios from "axios";
-import {tournamentState} from './recoil/atoms';
+import {newTournamentState, tournamentState} from './recoil/atoms';
 import {BrowserRouter, NavLink, Route, Routes, useNavigate} from 'react-router-dom';
 import {NewTournamentPage} from "./pages/NewTournamentPage";
 import {ExistingTournamentPage} from './pages/ExistingTournamentPage';
@@ -19,9 +19,12 @@ import {AllRoundsPage} from "./pages/AllRoundsPage";
 import {PlayersPage} from './pages/PlayersPage';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {Loading} from "./components/Loading";
+import {Tournament} from "./types/tournament";
 
 
 axios.defaults.baseURL = process.env.REACT_APP_SERVER_URL;
+
+const TOURNAMENT_CHECKER_INTERVAL = 5 * 60 * 1000;
 
 ReactDOM.render(
     <React.StrictMode>
@@ -87,21 +90,48 @@ function Application() {
 }
 
 function NavigationBar() {
-    const currentTournament = useRecoilValue(tournamentState);
+    const [currentTournament, setCurrentTournament] = useRecoilState(tournamentState);
+    const [newTournament, setNewTournament] = useRecoilState(newTournamentState);
+    const checkerInterval = useRef<number | null>(null);
+
+    useEffect(() => {
+        if (!currentTournament) {
+            if (checkerInterval.current){
+                clearInterval(checkerInterval.current);
+                checkerInterval.current = null;
+            }
+            return;
+        }
+        let interval = setInterval(() => {
+            axios.get(`/tournaments/${generateTournamentId()}?newRound=false`, {
+                params: {tournamentUpdateChecker: true}
+            }).then((response) => {
+                let newDate = response.data as Tournament;
+                if (JSON.stringify(currentTournament) !== JSON.stringify(newDate)) {
+                    setNewTournament(newDate);
+                }
+            });
+
+        }, TOURNAMENT_CHECKER_INTERVAL);
+        // @ts-ignore
+        checkerInterval.current = interval;
+
+        return () => {
+            checkerInterval.current = null;
+            clearInterval(interval);
+        }
+    }, [currentTournament]);
 
     return (
-        <nav className="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+        <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
             <div className="container">
                 <a className="navbar-brand" style={{marginRight: '3em'}} href="/">
                     <AppLogo/>
                     <span style={{marginLeft: '10px'}}>SWISS</span></a>
-                <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarNav"
-                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span className="navbar-toggler-icon"></span>
-                </button>
+
                 <div className="collapse navbar-collapse" id="navbarNav">
                     {currentTournament &&
+
                         <ul className="navbar-nav">
                             <li className="nav-item">
                                 <NavLink className={({isActive}) => `nav-link ${isActive ? 'active' : ''}`}
@@ -121,9 +151,29 @@ function NavigationBar() {
                                     Háči a výsledky
                                 </NavLink>
                             </li>
+
                         </ul>
+
                     }
                 </div>
+                <div className="nav-item d-flex flex-row justify-content-end">
+                    {newTournament && (
+                        <button className={'btn btn-link text-success'}
+                                style={{paddingLeft: 0}}
+                                onClick={() => {
+                                    setCurrentTournament(newTournament);
+                                    setNewTournament(null);
+                                }
+                                }>
+                            <FontAwesomeIcon icon={["fas", "rotate"]}/> Aktualizovať turnaj
+                        </button>
+                    )}
+                </div>
+                <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span className="navbar-toggler-icon"></span>
+                </button>
             </div>
         </nav>
     )
@@ -163,11 +213,11 @@ function HttpLoadingIndicator() {
     const [reqLoading, setReqLoading] = useState(false);
     const [show, setShow] = useState(false);
 
-    useEffect(()=>{
+    useEffect(() => {
         let timer: number | null = null;
-        if (reqLoading === true){
+        if (reqLoading === true) {
             // @ts-ignore
-            timer = setTimeout(()=>{
+            timer = setTimeout(() => {
                 setShow(true);
             }, 200);
         } else {
@@ -176,7 +226,7 @@ function HttpLoadingIndicator() {
             }
             setShow(false);
         }
-        return ()=>{
+        return () => {
             if (timer !== null) {
                 clearTimeout(timer);
             }
@@ -187,7 +237,9 @@ function HttpLoadingIndicator() {
     // Add a request interceptor
     axios.interceptors.request.use(function (config) {
         // Do something before request is sent
-        setReqLoading(true);
+        if (config.params?.tournamentUpdateChecker !== true) {
+            setReqLoading(true);
+        }
         return config;
     }, function (error) {
         // Do something with request error

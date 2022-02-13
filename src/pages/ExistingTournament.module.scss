@@ -5,6 +5,11 @@
   align-items: flex-start;
   gap: .5em;
 
+  > div {
+    display: flex;
+    align-items: center;
+  }
+
   &.playersWrapper > div::before {
       content: '•';
       margin-right: 5px;

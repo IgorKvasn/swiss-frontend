@@ -6,9 +6,7 @@ export const tournamentState = atom<Tournament | null>({
     default: null
 });
 
-/*
-export const axiosLoadingState = atom<boolean>({
-    key: "axiosLoadingState",
-    default: false
+export const newTournamentState = atom<Tournament | null>({
+    key: "newTournamentState",
+    default: null
 });
-*/

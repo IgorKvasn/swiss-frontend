@@ -177,7 +177,7 @@ function MatchComponent({
                  style={{
                      display: "grid",
                      gridAutoRows: "auto",
-                     gridTemplateColumns: '20em max-content',
+                     gridTemplateColumns: '1fr 1fr',
                      gap: '10em',
                      cursor: 'pointer'
                  }}
