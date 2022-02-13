@@ -5,3 +5,10 @@ export const tournamentState = atom<Tournament | null>({
     key: "tournamentState",
     default: null
 });
+
+/*
+export const axiosLoadingState = atom<boolean>({
+    key: "axiosLoadingState",
+    default: false
+});
+*/
