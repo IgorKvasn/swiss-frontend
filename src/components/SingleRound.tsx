@@ -177,8 +177,8 @@ function MatchComponent({
                  style={{
                      display: "grid",
                      gridAutoRows: "auto",
-                     gridTemplateColumns: '1fr 1fr',
-                     gap: '10em',
+                     gridTemplateColumns: '13em max-content',
+                     gap: '4em',
                      cursor: 'pointer'
                  }}
                  onClick={() => editable && onMatchSelected(match)}
