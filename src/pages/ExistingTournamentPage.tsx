@@ -27,7 +27,7 @@ export function ExistingTournamentPage() {
     }
 
     return <div className='container-sm' style={{textAlign: 'center'}}>
-        <h2 style={{textAlign: "center", marginBottom: '1em'}}>{currentRound!.number}. kolo</h2>
+        <h2 style={{textAlign: "center", marginBottom: '1em', marginTop: '.5em'}}>{currentRound!.number}. kolo</h2>
         <SingleRound round={currentRound!} editable={true}/>
     </div>
 

@@ -177,7 +177,7 @@ function MatchComponent({
                  style={{
                      display: "grid",
                      gridAutoRows: "auto",
-                     gridTemplateColumns: 'repeat(2, max-content)',
+                     gridTemplateColumns: '20em max-content',
                      gap: '10em',
                      cursor: 'pointer'
                  }}
@@ -216,8 +216,8 @@ function MatchComponent({
                     {!match.scores && editable && (
                         <div className={`btn btn-link ${styles.emptyScoreWrapper}`}
                         >
-                            Výsledok
                             <FontAwesomeIcon icon={["fas", "edit"]}/>
+                            Výsledok
                         </div>
                     )}
 
@@ -262,9 +262,11 @@ function EditingMatch({
                            onChange={(e) => scoreUpdated(e.target.value, index, 'score2')}/>
                 </Fragment>
             })}
+           {/*
+           TODO kontumacia
             <button type="button" className="btn btn-danger"><FontAwesomeIcon icon={['fas', 'trophy']}/> Kontumačná výhra TODO</button>
 
-            <button type="button" className="btn btn-danger"><FontAwesomeIcon icon={['fas', 'trophy']}/> Kontumačná výhra TODO</button>
+            <button type="button" className="btn btn-danger"><FontAwesomeIcon icon={['fas', 'trophy']}/> Kontumačná výhra TODO</button>*/}
 
         </div>
     )

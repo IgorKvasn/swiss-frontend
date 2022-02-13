@@ -35,7 +35,7 @@ export function AllRoundsPage() {
             return;
         }
         if (desktopRoundsElement.current !== null) {
-            // handyScroll.mount(desktopRoundsElement.current);
+            handyScroll.mount(desktopRoundsElement.current);
         }
 
         return () => {
@@ -48,7 +48,6 @@ export function AllRoundsPage() {
             return;
         }
         if (desktopRoundsElement.current !== null) {
-            console.log('upadte');
             handyScroll.update(desktopRoundsElement.current);
         }
     }, [canRender, currentTournament?.rounds, desktopRoundsElement.current]);
