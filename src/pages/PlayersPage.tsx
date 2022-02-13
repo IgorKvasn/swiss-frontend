@@ -1,11 +1,12 @@
 import {useRecoilValue} from "recoil";
-import {Fragment, useEffect, useMemo, useState} from "react";
+import React, {Fragment, useEffect, useMemo, useState} from "react";
 import {Tournament} from "../types/tournament";
 import {tournamentState} from "../recoil/atoms";
 import {useNavigate} from "react-router-dom";
 import {Player} from "../types/player";
 import styles from './PlayersPage.module.scss';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {Loading} from "../components/Loading";
 
 export function PlayersPage() {
     const navigate = useNavigate();
@@ -31,7 +32,7 @@ export function PlayersPage() {
     }, []);
 
     if (!canRender) {
-        return <></>;
+        return <Loading/>;
     }
 
     function playerClass(p: Player, index: number): string {

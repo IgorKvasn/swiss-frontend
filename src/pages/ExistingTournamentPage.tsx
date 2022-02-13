@@ -1,11 +1,12 @@
 import {currentRoundSelector, tournamentSettingsSelector} from "../recoil/selectors";
 import {useRecoilValue} from "recoil";
 import {Round} from "../types/round";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {TournamentSettings} from "../types/tournament-settings";
 import {useNavigate} from "react-router-dom";
 import {SingleRound} from "../components/SingleRound";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {Loading} from "../components/Loading";
 
 export function ExistingTournamentPage() {
     const navigate = useNavigate();
@@ -22,7 +23,7 @@ export function ExistingTournamentPage() {
     }, []);
 
     if (!canRender) {
-        return <>Loading...</>;
+        return <Loading/>;
     }
 
     return <div className='container-sm' style={{textAlign: 'center'}}>

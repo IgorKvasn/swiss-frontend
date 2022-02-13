@@ -4473,6 +4473,11 @@ handle-thing@^2.0.0:
   resolved "https://registry.npmjs.org/handle-thing/-/handle-thing-2.0.1.tgz#857f79ce359580c340d43081cc648970d0bb234e"
   integrity sha512-9Qn4yBxelxoh2Ow62nP+Ka/kMnOXRi8BXnRaUwezLNhqelnN49xKz4F/dPP8OYLxLxq6JDtZb2i9XznUQbNPTg==
 
+handy-scroll@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.npmjs.org/handy-scroll/-/handy-scroll-1.1.0.tgz#2bc4a6e46ff3ed59b452a2da29942597f4e77505"
+  integrity sha512-rgkKw1DFwFGargn+ET1TmgjNKuDvPd+s6Ffbod7hVY+j8GlUUfwTHPiA4udwBrRU09ao/8qbckZMm0APnZYEfA==
+
 harmony-reflect@^1.4.6:
   version "1.6.2"
   resolved "https://registry.npmjs.org/harmony-reflect/-/harmony-reflect-1.6.2.tgz#31ecbd32e648a34d030d86adb67d4d47547fe710"
