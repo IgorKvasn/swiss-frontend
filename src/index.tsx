@@ -153,7 +153,7 @@ function NavigationBar() {
                                 <NavLink className={({isActive}) => `nav-link ${isActive ? 'active' : ''}`}
                                          to="/hraci">
                                     <FontAwesomeIcon icon={["fas", "users"]}/> {' '}
-                                    Háči a výsledky
+                                    Hráči a výsledky
                                 </NavLink>
                             </li>
 
