@@ -36,6 +36,20 @@
   margin-left: .5em;
 }
 
-.match:hover{
-  background-color: #e5e5e5;
+.match {
+  display: grid;
+  grid-auto-rows: auto;
+  grid-template-columns: 13em max-content;
+  gap: 4em;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #e5e5e5;
+  }
+}
+
+@media (max-width: 469px) {
+  .match{
+    grid-template-columns: 1fr 1fr;
+  }
 }

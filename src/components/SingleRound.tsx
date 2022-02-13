@@ -24,12 +24,12 @@ export function SingleRound({round, editable}: { round: Round, editable: boolean
     const [editingMatch, setEditingMatch] = useState<Match | null>(null);
 
     function onMatchSelected(match: Match) {
-        let m: Match = {...match};
+        let m: Match = clone({...match});
         if (m.scores === null) {
             m.scores = [];
         }
         for (let i = m.scores.length; i < tournamentSettings!.maxSets; i++) {
-            m.scores.push({} as MatchSet);
+            m.scores.push({score1: null, score2: null} as MatchSet);
         }
 
         setEditingMatch(m);
@@ -58,7 +58,6 @@ export function SingleRound({round, editable}: { round: Round, editable: boolean
             let match = newTournament.rounds[newTournament.rounds.length - 1].matches.find(m => m.player1.id === editingMatch!.player1.id && m.player2.id === editingMatch!.player2.id);
             match!.scores = editingMatch!.scores;
             setCurrentTournament(newTournament);
-            console.log('newTournament', newTournament);
             setEditingMatch(null);
         });
 
@@ -174,13 +173,6 @@ function MatchComponent({
 
     return (<div className={'card'}>
             <div className={`card-body ${styles.match}`}
-                 style={{
-                     display: "grid",
-                     gridAutoRows: "auto",
-                     gridTemplateColumns: '13em max-content',
-                     gap: '4em',
-                     cursor: 'pointer'
-                 }}
                  onClick={() => editable && onMatchSelected(match)}
                  data-bs-toggle="modal"
                  data-bs-target="#exampleModal"
@@ -255,10 +247,10 @@ function EditingMatch({
 
             {match.scores.map((score, index) => {
                 return <Fragment key={index}>
-                    <input type="number" className="form-control" value={scores[index].score1!}
+                    <input type="number" className="form-control" value={scores[index].score1! || ''}
                            onChange={(e) => scoreUpdated(e.target.value, index, 'score1')}/>
 
-                    <input type="number" className="form-control" value={scores[index].score2!}
+                    <input type="number" className="form-control" value={scores[index].score2! || ''}
                            onChange={(e) => scoreUpdated(e.target.value, index, 'score2')}/>
                 </Fragment>
             })}
