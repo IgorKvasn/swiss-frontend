@@ -39,7 +39,7 @@ config.autoAddCss = false; // Tell Font Awesome to skip adding the CSS automatic
 //   );
 
 // Import @fortawesome/free-regular-svg-icons
-// library.add(farCalendarAlt, farCopy, farCheckSquare);
+// library.add(farCalendarAlt, farCopy, farCheckSquare)
 
 // Import @fortawesome/free-solid-svg-icons
 library.add(fasUserPlus, fasUserMinus, fasRunning, fasEdit, fasTrophy, fasArrowRight, fasChartLine, fasUsers, fasCrown, fasRotate);
