@@ -8,7 +8,7 @@ export const currentRoundSelector = selector<Round | null>({
     key: 'CurrentRound',
     get: ({get}) => {
         const tournament: Tournament | null = get(tournamentState);
-        if (!tournament){
+        if (!tournament || !tournament.rounds){
             return null;
         }
         return tournament.rounds[tournament.rounds.length - 1];
