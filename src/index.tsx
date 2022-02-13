@@ -60,6 +60,11 @@ function Application() {
         async function fetch() {
             try {
                 const response = await axios.get(`/tournaments/${generateTournamentId()}?newRound=false`);
+                if (!response.data.rounds){
+                    //this means that data recived from server are invalid - e.g. server is not running...
+                    navigate("/novy-turnaj");
+                    return null;
+                }
                 setCurrentTournament(response.data);
                 navigate("/turnaj");
             } catch (error) {
