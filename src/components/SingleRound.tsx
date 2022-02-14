@@ -231,6 +231,13 @@ function EditingMatch({
         onScoreChanged(newScores);
     }
 
+    function isNoneOrDefault(value: number | null): number | string{
+        if (value === null || typeof value === 'undefined'){
+            return '';
+        }
+        return value;
+    }
+
     return (
         <div style={{
             display: "grid",
@@ -247,10 +254,10 @@ function EditingMatch({
 
             {match.scores.map((score, index) => {
                 return <Fragment key={index}>
-                    <input type="number" className="form-control" value={scores[index].score1! || ''}
+                    <input type="number" className="form-control" value={isNoneOrDefault(scores[index].score1!)}
                            onChange={(e) => scoreUpdated(e.target.value, index, 'score1')}/>
 
-                    <input type="number" className="form-control" value={scores[index].score2! || ''}
+                    <input type="number" className="form-control" value={isNoneOrDefault(scores[index].score2!)}
                            onChange={(e) => scoreUpdated(e.target.value, index, 'score2')}/>
                 </Fragment>
             })}
