@@ -226,6 +226,9 @@ function EditingMatch({
                       }: { match: Match, scores: MatchSet[], onScoreChanged: (scores: MatchSet[]) => void }) {
 
     function scoreUpdated(value: string, setIndex: number, scoreProperty: 'score1' | 'score2') {
+        if (value.startsWith('-') || value.includes('.') || value.includes(',')){
+            return;
+        }
         let newScores = [...scores];
         newScores[setIndex][scoreProperty] = value !== '' ? Number(value) : null;
         onScoreChanged(newScores);
@@ -255,10 +258,22 @@ function EditingMatch({
             {match.scores.map((score, index) => {
                 return <Fragment key={index}>
                     <input type="number" className="form-control" value={isNoneOrDefault(scores[index].score1!)}
-                           onChange={(e) => scoreUpdated(e.target.value, index, 'score1')}/>
+                           onChange={(e) => scoreUpdated(e.target.value, index, 'score1')}
+                           onKeyPress={(event) => {
+                               if (!/[0-9]/.test(event.key)) {
+                                   event.preventDefault();
+                               }
+                           }}
+                    />
 
                     <input type="number" className="form-control" value={isNoneOrDefault(scores[index].score2!)}
-                           onChange={(e) => scoreUpdated(e.target.value, index, 'score2')}/>
+                           onChange={(e) => scoreUpdated(e.target.value, index, 'score2')}
+                           onKeyPress={(event) => {
+                               if (!/[0-9]/.test(event.key)) {
+                                   event.preventDefault();
+                               }
+                           }}
+                    />
                 </Fragment>
             })}
            {/*
