@@ -34,6 +34,7 @@ ReactDOM.render(
                 <BrowserRouter>
                     <NavigationBar/>
                     <HttpLoadingIndicator/>
+                    <DeleteTournamentButton/>
                     <Routes>
                         <Route path="/" element={<Application/>}/>
 
@@ -60,7 +61,7 @@ function Application() {
         async function fetch() {
             try {
                 const response = await axios.get(`/tournaments/${generateTournamentId()}?newRound=false`);
-                if (!response.data.rounds){
+                if (!response.data.rounds) {
                     //this means that data recived from server are invalid - e.g. server is not running...
                     navigate("/novy-turnaj");
                     return null;
@@ -101,7 +102,7 @@ function NavigationBar() {
 
     useEffect(() => {
         if (!currentTournament) {
-            if (checkerInterval.current){
+            if (checkerInterval.current) {
                 clearInterval(checkerInterval.current);
                 checkerInterval.current = null;
             }
@@ -296,6 +297,79 @@ function HttpLoadingIndicator() {
                 </div>)}
         </>
     );
+}
+
+function DeleteTournamentButton() {
+
+    const [pass, setPass] = useState('');
+    const navigate = useNavigate();
+    const [currentTournament, setCurrentTournament] = useRecoilState(tournamentState);
+
+    function onConfirmDelete() {
+        if (pass.length === 0) {
+            return;
+        }
+        let tournamentId = generateTournamentId();
+        axios.delete(`tornaments/${tournamentId}/${pass}`).then(() => {
+            setCurrentTournament(null);
+            navigate('/');
+        });
+        setPass('');
+    }
+
+    return (
+        <>
+            {currentTournament && <>
+                <button className={'btn btn-outline-danger'}
+                        style={{position: "fixed", bottom: 0, right: 0, borderColor: 'transparent'}}
+                        data-bs-toggle="modal"
+                        data-bs-target="#deleteTournamentDialog"
+                >
+                    <FontAwesomeIcon icon={['fas', 'trash-can']} style={{marginRight: 0}}/>
+                </button>
+
+                <div className="modal fade" id="deleteTournamentDialog" tabIndex={-1}
+                     aria-labelledby="deleteTournamentDialogLabel"
+
+                     aria-hidden="true">
+                    <div className="modal-dialog modal-dialog-centered modal-lg">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title text-danger" id="deleteTournamentDialogLabel">Naozaj chcete
+                                    zrušiť tento turnaj?</h5>
+                                <button type="button" className="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div className="modal-body">
+
+                                <div className="mb-3">
+                                    <label htmlFor="deletePassword" className="form-label">Zadajte heslo:</label>
+                                    <input type="password"
+                                           className="form-control"
+                                           id="deletePassword"
+                                           value={pass}
+                                           onChange={(e) => setPass(e.target.value)}/>
+                                </div>
+
+                            </div>
+                            <div className="modal-footer">
+
+                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal"
+                                        onClick={() => {
+                                            setPass('');
+                                        }}
+                                >Nie, nezrušiť turnaj
+                                </button>
+                                <button type="button" className="btn btn-danger" data-bs-dismiss="modal"
+                                        onClick={() => onConfirmDelete()}>Áno, naozaj chcem zrušiť turnaj
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </>}
+        </>
+    )
 }
 
 // If you want to start measuring performance in your app, pass a function
