@@ -310,9 +310,11 @@ function DeleteTournamentButton() {
             return;
         }
         let tournamentId = generateTournamentId();
-        axios.delete(`tornaments/${tournamentId}/${pass}`).then(() => {
+        axios.delete(`tournaments/${tournamentId}/${pass}`).then(() => {
+            navigate('/novy-turnaj');
             setCurrentTournament(null);
-            navigate('/');
+        }).catch(()=>{
+            //nothing
         });
         setPass('');
     }
